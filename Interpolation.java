@@ -15,6 +15,11 @@ public class Interpolation
         
     }
 
+    public static void simplifiedInterpolation(double[] fx, double[] x)
+    {
+        
+    }
+
     public static void newtonInterpolation(double[] fx, double[] x)
     {
         double[] solution = new double[fx.length];
