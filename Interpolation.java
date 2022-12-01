@@ -20,6 +20,56 @@ public class Interpolation
         
     }
 
+    public static void lagrangeInterpolation(double[] fx, double[] x)
+    {
+        for (int i = 0; i < fx.length; i++)
+        {
+            double divide = fx[i];
+            for (int k = 0; k < fx.length; k++)
+            {
+                if (k != i)
+                {
+                    divide /= (x[i] - x[k]);
+                }
+            }
+            if (i > 0)
+            {
+                if (divide > 0)
+                {
+                    System.out.print(" + " + divide);
+                }
+                else
+                {
+                    System.out.print(" - " + Math.abs(divide));
+                }
+            }
+            else
+            {
+                System.out.print(divide);
+            }
+            for (int k = 0; k < fx.length; k++)
+            {
+                
+                if (k != i)
+                {
+                    System.out.print("(x ");
+                    if (x[k] > 0)
+                    {
+                        System.out.print("- " + Math.abs(x[k]));
+                    }
+                    else if (x[k] < 0)
+                    {
+                        System.out.print("+ " + Math.abs(x[k]));
+                    }
+                    System.out.print(")");
+                }
+
+                
+            }
+
+        }
+    }
+
     public static void newtonInterpolation(double[] fx, double[] x)
     {
         double[] solution = new double[fx.length];
@@ -83,7 +133,8 @@ public class Interpolation
                 fx[i] = Double.parseDouble(fxString[i]);
                 x[i] = Double.parseDouble(xString[i]);
             }
-            newtonInterpolation(fx, x);
+            // newtonInterpolation(fx, x);
+            lagrangeInterpolation(fx, x);
 
 
         fileReader.close();
