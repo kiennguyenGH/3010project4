@@ -132,8 +132,22 @@ public class Interpolation
         Node[] simplified = new Node[fx.length];
         for (int i = 0; i < simplified.length; i++)
         {
-            // for (int k = 0)
+            simplified[i] = polynomials[i][0];
         }
+        for (int i = 0; i < simplified.length; i++)
+        {
+            for (int k = 1; k < simplified.length; k++)
+            {
+                multiplyPolynomial(simplified[i], polynomials[i][k], simplified[i]);
+            }
+        }
+        Node finalPoly = new Node();
+        for (int i = 0; i < simplified.length; i++)
+        {
+            finalPoly = addNode(finalPoly, simplified[i].coefficient, simplified[i].power);
+        }
+        printPolynomial(finalPoly);
+
     }
 
     public static void lagrangeInterpolation(double[] fx, double[] x)
@@ -247,8 +261,8 @@ public class Interpolation
                 x[i] = Double.parseDouble(xString[i]);
             }
             // newtonInterpolation(fx, x);
-            lagrangeInterpolation(fx, x);
-            // simplifiedInterpolation(fx, x);
+            // lagrangeInterpolation(fx, x);
+            simplifiedInterpolation(fx, x);
 
 
         fileReader.close();
