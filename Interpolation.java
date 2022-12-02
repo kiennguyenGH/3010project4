@@ -17,6 +17,33 @@ public class Interpolation
 
     public static void simplifiedInterpolation(double[] fx, double[] x)
     {
+        double[] solution = new double[fx.length];
+        double[] coefficients = new double[fx.length];
+        for (int i = 0; i < coefficients.length; i++)
+        {
+            coefficients[i] = 0;
+        }
+        for (int i = 0; i < fx.length; i++)
+        {
+            solution[i] = fx[i];
+        }
+        for (int j = 1; j < fx.length; j++)
+        {
+            for (int i = fx.length-1; i >= j; i--)
+            {
+                solution[i] = (solution[i] - solution[i-1])/(x[i] - x[i-j]);
+            }
+        }
+        coefficients[0] = solution[0];
+        coefficients[coefficients.length-1] = solution[solution.length-1];
+        for (int i = 1; i < coefficients.length - 1; i++)
+        {
+            for (int k = i; k < coefficients.length; k++)
+            {
+                coefficients[i] += solution[k];
+            }
+        }
+        printArray(coefficients, 0);
         
     }
 
@@ -133,8 +160,9 @@ public class Interpolation
                 fx[i] = Double.parseDouble(fxString[i]);
                 x[i] = Double.parseDouble(xString[i]);
             }
-            // newtonInterpolation(fx, x);
-            lagrangeInterpolation(fx, x);
+            newtonInterpolation(fx, x);
+            // lagrangeInterpolation(fx, x);
+            // simplifiedInterpolation(fx, x);
 
 
         fileReader.close();
