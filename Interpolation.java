@@ -35,6 +35,10 @@ public class Interpolation
     {
         while (poly.next != null)
         {
+            // if (poly.coefficient != 0)
+            // {
+                
+            // }
             System.out.print(poly.coefficient + "x^" + poly.power + " + ");
             poly = poly.next;
         }
@@ -43,49 +47,52 @@ public class Interpolation
 
     static void combineDegree(Node poly)
     {
-        Node pointer1 = poly;
-        Node pointer2;
-        // Node temp;
+        Node pointer1, pointer2; 
+        pointer1 = poly; 
         while (pointer1 != null && pointer1.next != null)
-        {
-            pointer2 = pointer1;
+        { 
+            pointer2 = pointer1; 
             while (pointer2.next != null)
-            {
-                if (pointer1.power == pointer2.power)
-                {
-                    pointer1.coefficient = pointer1.coefficient + pointer2.coefficient;
-                    // temp = pointer2.next;
-                    pointer2.next = pointer2.next.next;
-                }
+            { 
+                if (pointer1.power == pointer2.next.power)
+                { 
+                    pointer1.coefficient = pointer1.coefficient + pointer2.next.coefficient;
+                    pointer2.next = pointer2.next.next; 
+                } 
                 else
                 {
-                    pointer2 = pointer2.next;
+                    pointer2 = pointer2.next; 
                 }
-            }
-            pointer1 = pointer1.next;
+            } 
+            pointer1 = pointer1.next; 
         }
     }
+
+    
 
     static Node multiplyPolynomial(Node polynomial1, Node polynomial2, Node target)
-    {
-        Node pointer1 = polynomial1;
-        Node pointer2 = polynomial2;
+    { 
+        Node pointer1;
+        Node pointer2; 
+        pointer1 = polynomial1; 
+        pointer2 = polynomial2; 
         while (pointer1 != null)
-        {
+        { 
             while (pointer2 != null)
-            {
-                double coefficient = pointer1.coefficient * pointer2.coefficient;
-                double power = pointer1.power + pointer2.power;
-                target = addNode(target, coefficient, power);
-                pointer2 = pointer2.next;
-            }
-            pointer2 = polynomial2;
-            pointer1 = pointer1.next;
-        }
-        combineDegree(target);
-        return target;
-
-    }
+            { 
+                double coefficient;
+                double power; 
+                coefficient = pointer1.coefficient * pointer2.coefficient; 
+                power = pointer1.power + pointer2.power; 
+                target = addNode(target, coefficient, power); 
+                pointer2 = pointer2.next; 
+            } 
+            pointer2 = polynomial2; 
+            pointer1 = pointer1.next; 
+        } 
+        combineDegree(target); 
+        return target; 
+    } 
 
     public static void printArray(double[] array, int index)
     {
@@ -110,44 +117,20 @@ public class Interpolation
                     divide /= (x[i] - x[k]);
                 }
             }
-            polynomials[i][0] = new Node();
-            polynomials[i][0].coefficient = divide;
-            polynomials[i][0].power = 0;
-            polynomials[i][0].next = null;
+            polynomials[i][0] = addNode(polynomials[i][0], divide, 0);
             int count = 1;
             for (int k = 0; k < fx.length; k++)
             {
                 if (k != i)
                 {
-                    polynomials[i][count] = new Node();
-                    polynomials[i][count].coefficient = 1.0;
-                    polynomials[i][count].power = 1;
-                    polynomials[i][count].next = null;
-                    polynomials[i][count] = addNode(polynomials[i][count], x[k], 0);
-
+                    polynomials[i][count] = addNode(polynomials[i][count], 1, 1);
+                    polynomials[i][count] = addNode(polynomials[i][count], 0 - x[k], 0);
                     count++;
                 }   
             }
-        }   
-        Node[] simplified = new Node[fx.length];
-        for (int i = 0; i < simplified.length; i++)
-        {
-            simplified[i] = polynomials[i][0];
         }
-        for (int i = 0; i < simplified.length; i++)
-        {
-            for (int k = 1; k < simplified.length; k++)
-            {
-                multiplyPolynomial(simplified[i], polynomials[i][k], simplified[i]);
-            }
-        }
-        Node finalPoly = new Node();
-        for (int i = 0; i < simplified.length; i++)
-        {
-            finalPoly = addNode(finalPoly, simplified[i].coefficient, simplified[i].power);
-        }
-        printPolynomial(finalPoly);
-
+        Node[] simplified = new Node[fx.length];       
+        
     }
 
     public static void lagrangeInterpolation(double[] fx, double[] x)
