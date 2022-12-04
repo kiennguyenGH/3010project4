@@ -68,6 +68,7 @@ public class Interpolation
 
     public static void simplifiedInterpolation(double[] fx, double[] x)
     {
+        System.out.println("Simplified polynomial:");
         double[][][] polynomials = new double[fx.length][fx.length][2];
         for (int i = 0; i < fx.length; i++)
         {
@@ -95,17 +96,7 @@ public class Interpolation
                 }
             }
         }
-        // for (int i = 0; i < polynomials.length; i++)
-        // {
-        //     for (int k = 0; k < polynomials.length; k++)
-        //     {
-        //         printPolynomial(polynomials[i][k]);
-        //         System.out.println();
-        //     }
-        // }
         double[][] simplified = new double[fx.length][];
-        // simplified[0] = polynomials[0][0];
-        // simplified[0] = multiply(simplified[0], polynomials[0][1]);
         for (int i = 0; i < simplified.length; i++)
         {
             simplified[i] = polynomials[i][0];
@@ -114,7 +105,6 @@ public class Interpolation
                 simplified[i] = multiply(simplified[i], polynomials[i][k]);
             }
         }
-        // printMatrix(simplified);
         double[] finalPoly = new double[simplified.length];
         for (int i = 0; i < finalPoly.length; i++)
         {
@@ -127,12 +117,13 @@ public class Interpolation
                 finalPoly[i] += simplified[k][i];
             }
         }
-        printArray(finalPoly, 0);
+        printPolynomial(finalPoly);
         
     }
 
     public static void lagrangeInterpolation(double[] fx, double[] x)
     {
+        System.out.println("Lagrange Form: ");
         for (int i = 0; i < fx.length; i++)
         {
             double divide = fx[i];
@@ -176,6 +167,7 @@ public class Interpolation
                 }   
             }
         }
+        System.out.println();
     }
 
     public static void newtonInterpolation(double[] fx, double[] x)
@@ -194,6 +186,7 @@ public class Interpolation
             }
             printArray(solution, j);
         }
+        System.out.println("Newton Form: ");
         System.out.print(solution[0] + " ");
         for (int i = 1; i < solution.length; i++)
         {
@@ -219,6 +212,7 @@ public class Interpolation
                 System.out.print(") ");
             }
         }
+        System.out.println();
         
     }
 
@@ -241,8 +235,9 @@ public class Interpolation
                 fx[i] = Double.parseDouble(fxString[i]);
                 x[i] = Double.parseDouble(xString[i]);
             }
-            // newtonInterpolation(fx, x);
-            // lagrangeInterpolation(fx, x);
+            System.out.println("Newton's Divided Difference:");
+            newtonInterpolation(fx, x);
+            lagrangeInterpolation(fx, x);
             simplifiedInterpolation(fx, x);
 
 
